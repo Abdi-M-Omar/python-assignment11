@@ -55,6 +55,7 @@ fig = px.scatter(
 
 
 # Task 3.4: Save the interactive plot as wind.html
+# Task 3.4: Save the interactive plot as wind.html
 from pathlib import Path
 
 output_file = Path(__file__).parent / "wind.html"
@@ -64,5 +65,12 @@ fig.write_html(
     include_plotlyjs="cdn"
 )
 
+# Verify that the HTML file was saved successfully
+if output_file.exists():
+    print(f"\nPlot saved successfully: {output_file}")
+else:
+    print("\nError: wind.html was not created.")
+
+# Show/load the interactive plot for verification
 # Show the interactive plot
 fig.show()
