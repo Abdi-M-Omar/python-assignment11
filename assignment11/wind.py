@@ -1,5 +1,7 @@
 # Task 3: Interactive Visualizations with Plotly
 
+from pathlib import Path
+
 import plotly.express as px
 import plotly.data as pldata
 
@@ -17,18 +19,28 @@ print(df.tail(10))
 
 
 # Task 3.2: Clean the strength column
-# The original values are strings such as:
-# "0-1", "1-2", "2-3", and "6+"
-# Remove everything after the first number so the
-# strength column can be converted to float.
-df["strength"] = (
-    df["strength"]
-    .str.replace(r"-.*", "", regex=True)
-    .str.replace("+", "", regex=False)
-    .astype(float)
-)
+# Convert wind-strength ranges to numeric float values.
+# Examples:
+# "0-1" -> 0.5
+# "1-2" -> 1.5
+# "2-3" -> 2.5
+# "6+"  -> 6.0
 
-# Display the cleaned data type
+def convert_strength(value):
+    value = value.strip()
+
+    if "-" in value:
+        low, high = value.split("-")
+        return (float(low) + float(high)) / 2
+
+    if value.endswith("+"):
+        return float(value.replace("+", ""))
+
+    return float(value)
+
+
+df["strength"] = df["strength"].apply(convert_strength)
+
 print("\nCleaned strength column:")
 print(df[["strength"]].head(10))
 
@@ -49,15 +61,12 @@ fig = px.scatter(
     labels={
         "strength": "Wind Strength",
         "frequency": "Frequency",
-        "direction": "Direction"
-    }
+        "direction": "Direction",
+    },
 )
 
 
 # Task 3.4: Save the interactive plot as wind.html
-# Task 3.4: Save the interactive plot as wind.html
-from pathlib import Path
-
 output_file = Path(__file__).parent / "wind.html"
 
 fig.write_html(
@@ -65,12 +74,17 @@ fig.write_html(
     include_plotlyjs="cdn"
 )
 
-# Verify that the HTML file was saved successfully
-if output_file.exists():
-    print(f"\nPlot saved successfully: {output_file}")
-else:
-    print("\nError: wind.html was not created.")
+print(f"\nSaved Plotly visualization to: {output_file}")
 
-# Show/load the interactive plot for verification
-# Show the interactive plot
+
+# Explicitly load/read the saved HTML file to verify it works
+html_content = output_file.read_text(encoding="utf-8")
+
+if "<html" in html_content.lower() and "plotly" in html_content.lower():
+    print("Verification successful: wind.html was saved and loaded correctly.")
+else:
+    raise ValueError("wind.html could not be verified correctly.")
+
+
+# Display the interactive visualization
 fig.show()
