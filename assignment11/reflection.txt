@@ -1,0 +1,11 @@
+1. Static vs. Interactive Visualizations
+
+Static visualizations display data in a fixed format and are useful when the information does not need to change or be explored by the user. Interactive visualizations allow users to interact with the data by hovering, zooming, filtering, and exploring different values. Interactive visualizations can make it easier to understand larger or more detailed datasets.
+
+2. Advantages of Dashboards for Real-Time Data Exploration
+
+Dashboards are useful for real-time data exploration because they allow users to monitor important information in one place. As data changes, a dashboard can display updated charts, metrics, and other information. Users can also use filters and other controls to explore the data and quickly identify trends or changes.
+
+3. Plotly and Professional Data Communication
+
+Interactive tools such as Plotly can improve data communication by allowing people to explore a visualization instead of only viewing a static chart. Users can hover over data points to see specific values, zoom into areas of interest, and compare different categories. In professional settings, these features can help analysts communicate findings more clearly and help stakeholders better understand the data.
